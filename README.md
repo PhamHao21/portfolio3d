@@ -1,36 +1,37 @@
 # Portfolio 3D
 
-Portfolio dang character-select: 4 nhan vat dung quanh dia xoay,
-moi nhan vat ung voi 1 muc (About / Tech / Projects / Work).
+A character-select style portfolio: 4 characters stand around a rotating disc,
+each one representing a section (About / Tech / Projects / Work).
 
-Co 2 bo nhan vat, chon bang `CAST` trong `src/lib/data/sections.js`:
+There are 2 character sets, selected with `CAST` in `src/lib/data/sections.js`:
 
-| CAST | Model | Dang | Ghi chu |
+| CAST | Models | Posing | Notes |
 |---|---|---|---|
-| `mmd` | 4 model PMX (MikuMikuDance) | dang tinh trong `poses.js` + chuyen dong song viet bang code | Giay phep cam phan phoi lai: **chi chay tren may, khong deploy** |
-| `vroid` | 4 nhan vat VRoid (VRM) | animation Mixamo (FBX) | Dung cho ban dua len mang |
+| `mmd` | 4 PMX models (MikuMikuDance) | static poses in `poses.js` + procedural idle motion | License forbids redistribution: **local use only, do not deploy** |
+| `vroid` | 4 VRoid characters (VRM) | Mixamo animations (FBX) | Use this set for the public build |
 
-## Cong nghe
+## Tech stack
 
-| Lop | Chon |
+| Layer | Choice |
 |---|---|
 | Framework | SvelteKit 2 + Svelte 5 |
-| Deploy | adapter-static (site tinh, khong can server) |
-| 3D | three (thuan, khong dung Threlte) |
-| MMD | bo doc PMX tu viet (`src/lib/three/mmd/`), IK bang CCDIKSolver co san trong three |
-| VRM | @pixiv/three-vrm v3, giai nen MeshoptDecoder |
-| Animation VRM | vrm-mixamo-retarget |
+| Deploy | adapter-static (static site, no server needed) |
+| 3D | plain three.js (no Threlte) |
+| MMD | custom PMX loader (`src/lib/three/mmd/`), IK via three's built-in CCDIKSolver |
+| VRM | @pixiv/three-vrm v3, MeshoptDecoder for compressed meshes |
+| VRM animation | vrm-mixamo-retarget |
 
-## Chuan bi file
+## Preparing assets
 
-Cac file model khong nam trong repo.
+The VRoid models and animations are included in the repo. The PMX models are not.
 
-**MMD**: giai nen tung file zip vao 1 thu muc rieng roi chay:
+**MMD**: extract each zip into its own folder, then run:
 
-    node tools/prepare-pmx.mjs <thu-muc-giai-nen> piper
+    node tools/prepare-pmx.mjs <extracted-folder> piper
     -> static/models/piper/model.pmx + t0.webp, t1.webp...
 
-Script lay file .pmx lon nhat, doi texture sang webp (1024px, texture mat 2048px).
+The script picks the largest .pmx file and converts its textures to webp
+(1024px, face textures 2048px).
 
 **VRoid**:
 
@@ -38,31 +39,31 @@ Script lay file .pmx lon nhat, doi texture sang webp (1024px, texture mat 2048px
     static/anim/idle_1.fbx ... idle_4.fbx
     static/anim/pose_select.fbx
 
-FBX phai tai tu Mixamo voi: Format = FBX Binary (.fbx), Skin = Without Skin.
+FBX files must be downloaded from Mixamo with Format = FBX Binary (.fbx), Skin = Without Skin.
 
-## Lenh
+## Commands
 
     npm install
     npm run dev       # http://localhost:5173
     npm test
     npm run build
 
-Chinh dang nhan vat MMD: http://localhost:5173/pose (chi khi dev). Keo thanh truot,
-bam Luu -> ghi `src/lib/data/poses.js`. Co the mo anh tham khao de dat chong len.
+Pose editor for MMD characters: http://localhost:5173/pose (dev only). Drag the sliders,
+then click Save to write `src/lib/data/poses.js`. You can load a reference image as an overlay.
 
-Hien so do fps: http://localhost:5173/?stats . Tat hieu ung: `?fx=0`.
+Show the FPS meter: http://localhost:5173/?stats. Disable post effects: `?fx=0`.
 
-## Nen lai model VRM
+## Compressing VRM models
 
     cd tools
     .\optimize.ps1 -Name Character1
 
-## Cau truc
+## Project structure
 
-    src/lib/data/       du lieu 4 muc + dang MMD, khong hardcode o cho khac
-    src/lib/three/      code three.js (menh lenh, tach khoi Svelte)
-    src/lib/three/mmd/  doc PMX, dung mesh, vat lieu toon, giai xuong + dang
-    src/lib/components/ component giao dien
-    src/lib/dev/        trang chinh dang (chi dev)
-    tools/              script nen VRM, chuan bi PMX, plugin luu dang
-    tests/              unit test
+    src/lib/data/       data for the 4 sections + MMD poses (nothing hardcoded elsewhere)
+    src/lib/three/      three.js code (imperative, kept separate from Svelte)
+    src/lib/three/mmd/  PMX parsing, mesh building, toon materials, bone solving + poses
+    src/lib/components/ UI components
+    src/lib/dev/        pose editor page (dev only)
+    tools/              scripts for compressing VRM, preparing PMX, pose saving plugin
+    tests/              unit tests
