@@ -1,0 +1,10 @@
+node_modules
+.svelte-kit
+build
+
+# Model MMD (PMX): giay phep cam phan phoi lai, chi giu tren may.
+static/models/piper/
+static/models/yixuan/
+static/models/sunna/
+static/models/dialyn/
+static/models/mana/

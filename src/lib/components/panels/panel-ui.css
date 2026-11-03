@@ -1,0 +1,134 @@
+/* Kieu dung chung cho noi dung 4 panel (global, tien to pu- de khong dung ten khac). */
+
+.pu-label {
+  margin: 0;
+  font: 500 11px/1.3 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.pu-h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font: 700 26px/1 var(--cond);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.pu-h3 span {
+  font: 600 11px/1 var(--mono);
+  color: var(--ink-soft);
+}
+
+.pu-p {
+  margin: 0;
+  max-width: 68ch;
+  font: 400 16px/1.65 var(--sans);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.pu-p + .pu-p {
+  margin-top: 12px;
+}
+
+.pu-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pu-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 11px 0 10px;
+  font: 500 12px/1 var(--mono);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 0 100%);
+  white-space: nowrap;
+}
+.pu-chip--accent {
+  background: var(--accent);
+}
+.pu-chip--ink {
+  background: var(--ink);
+  color: var(--accent);
+}
+
+.pu-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pu-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 12px 0 14px;
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+  color: var(--ink);
+  text-decoration: none;
+  font: 600 12px/1 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s var(--ease),
+    translate 0.2s var(--ease);
+}
+.pu-link:hover {
+  background: var(--accent);
+  translate: 0 -2px;
+}
+.pu-link:active {
+  translate: 0 0;
+}
+.pu-link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.pu-kv {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 20px;
+  margin: 0;
+}
+.pu-kv dd {
+  margin: 5px 0 0;
+  font: 500 16px/1.35 var(--sans);
+  color: var(--ink);
+}
+
+.pu-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pu-list li {
+  position: relative;
+  padding-left: 18px;
+  font: 400 15px/1.55 var(--sans);
+  color: var(--ink);
+}
+/* Dau dong: o vuong vang nho thay cho cham tron. */
+.pu-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pu-link {
+    transition: none;
+  }
+}
